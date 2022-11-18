@@ -77,7 +77,6 @@ async function DownloadFile(name) {
         if (response.ok === true) {
             const file = await response.json();
             console.log(file);
-            document.querySelector("tr[data-rowid='" + file + "']").remove();
         }
     } else {
         const response = await fetch("/api/file/download/" + name, {
@@ -87,7 +86,6 @@ async function DownloadFile(name) {
         if (response.ok === true) {
             const file = await response.json();
             console.log(file);
-            document.querySelector("tr[data-rowid='" + file + "']").remove();
         }
     }
 }
@@ -134,6 +132,8 @@ function row(file) {
 
     const downloadLink = document.createElement("a");
     downloadLink.setAttribute("data-id", file);
+    downloadLink.setAttribute('href', 'http://localhost:3000/api/file/download/Bok.txt');
+    downloadLink.setAttribute('download','download');
     downloadLink.setAttribute("style", "cursor:pointer;padding:15px;");
     downloadLink.append("Скачать");
     downloadLink.addEventListener("click", e => {

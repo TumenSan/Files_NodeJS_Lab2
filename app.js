@@ -9,6 +9,7 @@
 Для успешной сдачи необходимо предоставить текстовое описание протокола. */
 const express = require("express");
 const fs = require("fs");
+const http = require('http');//
 const path = require('node:path');//
     
 const app = express();
@@ -72,12 +73,21 @@ app.delete("/api/folder/delete/:filename(*)", function(req, res){
     });
 });
 app.get('/api/file/download/:file(*)', (req, res) => {
+
     let file = req.params.file;
     let fileLocation = path.join('./FilesLab', file);
 
     console.log(fileLocation);
-    res.download(fileLocation);
+    return res.download(fileLocation, file);
     //res.download('./FilesLab', 'file123.txt');
+
+   /*
+    res.download('./FilesLab/Box.txt', function(err) {
+        if(err) {
+            console.log(err);
+        }
+    })   
+    */ 
 });
 app.get('/api/folder/count', (req, res) => {
     /*
