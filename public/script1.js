@@ -69,25 +69,53 @@ async function GetFiles() {
 }
 //Скачивание файлов
 async function DownloadFile(name) {
-    if (name.indexOf('.') == -1){
-        const response = await fetch("/api/folder/download/" + name, {
-            method: "GET",
-            headers: { "Accept": "application/json" }
-        });
-        if (response.ok === true) {
-            const file = await response.json();
-            console.log(file);
-        }
-    } else {
-        const response = await fetch("/api/file/download/" + name, {
-            method: "GET",
-            headers: { "Accept": "application/json" }
-        });
-        if (response.ok === true) {
-            const file = await response.json();
-            console.log(file);
-        }
+    /*
+    const response = await fetch("/api/file/download/" + name, {
+        method: "GET"
+        //headers: { "Accept": "application/json" }
+    });
+    if (response.ok === true) {
+        const file = await response.blob;
+        console.log(file);
     }
+    */
+   //let url = 'https://www.google-analytics.com/analytics.js';
+   //let fileName = 'gooleAnalytics.js';
+   /*
+   let url = '/api/file/download/';
+   let fileName = name;
+    fetch(url, { method: 'get', mode: 'no-cors', referrerPolicy: 'no-referrer' })
+    .then(res => res.blob())
+    .then(res => {
+      const aElement = document.createElement('a');
+      aElement.setAttribute('download', fileName);
+      const href = URL.createObjectURL(res);
+      aElement.href = href;
+      aElement.setAttribute('target', '_blank');
+      aElement.click();
+      URL.revokeObjectURL(href);
+    });
+    */
+   /*
+    const response = await fetch("/api/file/download/" + name, {
+        method: "GET"
+        //headers: { "Accept": "application/json" }
+    });
+    if (response.ok === true) {
+        const file = await response;
+        response => response.blob();
+        response => {
+            const aElement = document.createElement('a');
+            aElement.setAttribute('download', name);
+            const href = URL.createObjectURL(response);
+            aElement.href = href;
+            aElement.setAttribute('target', '_blank');
+            aElement.click();
+            URL.revokeObjectURL(href);
+          }
+        console.log(file);
+    }
+    */
 }
 //Удаление файла
 async function DeleteFile(name) {
@@ -132,15 +160,18 @@ function row(file) {
 
     const downloadLink = document.createElement("a");
     downloadLink.setAttribute("data-id", file);
-    downloadLink.setAttribute('href', 'http://localhost:3000/api/file/download/Bok.txt');
-    downloadLink.setAttribute('download','download');
+    downloadLink.setAttribute('href', 'http://localhost:3000/api/file/download/' + file);
+    downloadLink.setAttribute('download','');
+    //downloadLink.download;
     downloadLink.setAttribute("style", "cursor:pointer;padding:15px;");
     downloadLink.append("Скачать");
+    /*
     downloadLink.addEventListener("click", e => {
 
         e.preventDefault();
         DownloadFile(file);
     });
+    */
 
     linksTd.append(downloadLink);
 

@@ -78,7 +78,9 @@ app.get('/api/file/download/:file(*)', (req, res) => {
     let fileLocation = path.join('./FilesLab', file);
 
     console.log(fileLocation);
-    return res.download(fileLocation, file);
+    res.download(fileLocation, file);
+    //return res.download(fileLocation, file);
+    
     //res.download('./FilesLab', 'file123.txt');
 
    /*
