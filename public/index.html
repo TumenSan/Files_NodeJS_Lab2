@@ -3,32 +3,34 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>Список пользователей</title>
+    <title>Список файлов</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>
-    <h2>Список пользователей</h2>
-    <form name="userForm">
-        <input type="hidden" name="id" value="0" />
+    <h2>Список файлов</h2>
+    <form name="fileForm">
         <div class="form-group">
-            <label for="name">Имя:</label>
+            <label for="name">Название:</label>
             <input class="form-control" name="name" />
         </div>
         <div class="form-group">
-            <label for="age">Возраст:</label>
-            <input class="form-control" name="age" />
+            <label for="format">формат(txt, cpp и т.д. если папка, то пусто или folder):</label>
+            <input class="form-control" name="format" />
         </div>
         <div class="panel-body">
-            <button type="submit" class="btn btn-sm btn-primary">Сохранить</button>
+            <button type="submit" class="btn btn-sm btn-primary">Создать файл/папку</button>
             <a id="reset" class="btn btn-sm btn-primary">Сбросить</a>
         </div>
     </form>
     <table class="table table-condensed table-striped table-bordered">
-        <thead><tr><th>Id</th><th>Имя</th><th>возраст</th><th></th></tr></thead>
+        <thead><tr><th>Название</th></tr></thead>
         <tbody>
         </tbody>
     </table>
    
+    <ul id="ul1">
+
+    </ul>
     <script src="script1.js">
 
     </script>

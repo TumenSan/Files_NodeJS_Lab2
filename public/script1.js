@@ -1,7 +1,7 @@
 // Файл
-async function CreateFile() {
+async function CreateFile(name, format) {
     // отправляет запрос и получаем ответ
-    const response = await fetch("/api/files", {
+    const response = await fetch("/api/file/create/" + name + '.' + format, {
         method: "GET",
         headers: { "Accept": "application/json" }
     });
@@ -9,136 +9,153 @@ async function CreateFile() {
     if (response.ok === true) {
         // получаем данные
         const files = await response;
-        console.log(files)
+        console.log(files);
     }
 }
-
-// Получение всех пользователей
-async function GetUsers() {
+async function CreateFolder(name) {
     // отправляет запрос и получаем ответ
-    const response = await fetch("/api/users", {
+    const response = await fetch("/api/folder/create/" + name, {
         method: "GET",
         headers: { "Accept": "application/json" }
     });
     // если запрос прошел нормально
     if (response.ok === true) {
         // получаем данные
-        const users = await response.json();
-        let rows = document.querySelector("tbody"); 
-        users.forEach(user => {
-            // добавляем полученные элементы в таблицу
-            rows.append(row(user));
-        });
+        const files = await response;
+        console.log(files);
     }
 }
-// Получение одного пользователя
-async function GetUser(id) {
-    const response = await fetch("/api/users/" + id, {
+/*
+// Получение всех файлов
+async function GetFiles() {
+    // отправляет запрос и получаем ответ
+    const response = await fetch("/api/folder/count", {
         method: "GET",
         headers: { "Accept": "application/json" }
     });
+    // если запрос прошел нормально
     if (response.ok === true) {
-        const user = await response.json();
-        const form = document.forms["userForm"];
-        form.elements["id"].value = user.id;
-        form.elements["name"].value = user.name;
-        form.elements["age"].value = user.age;
+        // получаем данные
+        const files = await response.json();
+        console.log(files);
+        //let rows = document.querySelector("tbody"); 
+        files.forEach(file => {
+            let liLast = document.createElement('li');
+            liLast.innerHTML = file;
+            ul1.append(liLast);
+            // добавляем полученные элементы в таблицу
+            //rows.append(row(files));
+        });
     }
 }
-// Добавление пользователя
-async function CreateUser(userName, userAge) {
-
-    const response = await fetch("api/users", {
-        method: "POST",
-        headers: { "Accept": "application/json", "Content-Type": "application/json" },
-        body: JSON.stringify({
-            name: userName,
-            age: parseInt(userAge, 10)
-        })
-    });
-    if (response.ok === true) {
-        const user = await response.json();
-        reset();
-        document.querySelector("tbody").append(row(user));
-    }
-}
-// Изменение пользователя
-async function EditUser(userId, userName, userAge) {
-    const response = await fetch("api/users", {
-        method: "PUT",
-        headers: { "Accept": "application/json", "Content-Type": "application/json" },
-        body: JSON.stringify({
-            id: userId,
-            name: userName,
-            age: parseInt(userAge, 10)
-        })
-    });
-    if (response.ok === true) {
-        const user = await response.json();
-        reset();
-        document.querySelector("tr[data-rowid='" + user.id + "']").replaceWith(row(user));
-    }
-}
-// Удаление пользователя
-async function DeleteUser(id) {
-    const response = await fetch("/api/users/" + id, {
-        method: "DELETE",
+*/
+// Получение всех файлов
+async function GetFiles() {
+    // отправляет запрос и получаем ответ
+    const response = await fetch("/api/folder/count", {
+        method: "GET",
         headers: { "Accept": "application/json" }
     });
+    // если запрос прошел нормально
     if (response.ok === true) {
-        const user = await response.json();
-        document.querySelector("tr[data-rowid='" + user.id + "']").remove();
+        // получаем данные
+        const files = await response.json();
+        let rows = document.querySelector("tbody"); 
+        files.forEach(file => {
+            // добавляем полученные элементы в таблицу
+            rows.append(row(file));
+        });
+    }
+}
+//Скачивание файлов
+async function DownloadFile(name) {
+    if (name.indexOf('.') == -1){
+        const response = await fetch("/api/folder/download/" + name, {
+            method: "GET",
+            headers: { "Accept": "application/json" }
+        });
+        if (response.ok === true) {
+            const file = await response.json();
+            console.log(file);
+            document.querySelector("tr[data-rowid='" + file + "']").remove();
+        }
+    } else {
+        const response = await fetch("/api/file/download/" + name, {
+            method: "GET",
+            headers: { "Accept": "application/json" }
+        });
+        if (response.ok === true) {
+            const file = await response.json();
+            console.log(file);
+            document.querySelector("tr[data-rowid='" + file + "']").remove();
+        }
+    }
+}
+//Удаление файла
+async function DeleteFile(name) {
+    if (name.indexOf('.') == -1){
+        const response = await fetch("/api/folder/delete/" + name, {
+            method: "DELETE",
+            headers: { "Accept": "application/json" }
+        });
+        if (response.ok === true) {
+            const file = await response.json();
+            console.log(file);
+            document.querySelector("tr[data-rowid='" + file + "']").remove();
+        }
+    } else {
+        const response = await fetch("/api/file/delete/" + name, {
+            method: "DELETE",
+            headers: { "Accept": "application/json" }
+        });
+        if (response.ok === true) {
+            const file = await response.json();
+            console.log(file);
+            document.querySelector("tr[data-rowid='" + file + "']").remove();
+        }
     }
 }
 
 // сброс формы
 function reset() {
-    const form = document.forms["userForm"];
+    const form = document.forms["fileForm"];
     form.reset();
-    form.elements["id"].value = 0;
 }
 // создание строки для таблицы
-function row(user) {
+function row(file) {
 
     const tr = document.createElement("tr");
-    tr.setAttribute("data-rowid", user.id);
-
-    const idTd = document.createElement("td");
-    idTd.append(user.id);
-    tr.append(idTd);
 
     const nameTd = document.createElement("td");
-    nameTd.append(user.name);
+    nameTd.append(file);
     tr.append(nameTd);
-
-    const ageTd = document.createElement("td");
-    ageTd.append(user.age);
-    tr.append(ageTd);
       
     const linksTd = document.createElement("td");
 
-    const editLink = document.createElement("a");
-    editLink.setAttribute("data-id", user.id);
-    editLink.setAttribute("style", "cursor:pointer;padding:15px;");
-    editLink.append("Изменить");
-    editLink.addEventListener("click", e => {
+    const downloadLink = document.createElement("a");
+    downloadLink.setAttribute("data-id", file);
+    downloadLink.setAttribute("style", "cursor:pointer;padding:15px;");
+    downloadLink.append("Скачать");
+    downloadLink.addEventListener("click", e => {
 
         e.preventDefault();
-        GetUser(user.id);
+        DownloadFile(file);
     });
-    linksTd.append(editLink);
+
+    linksTd.append(downloadLink);
 
     const removeLink = document.createElement("a");
-    removeLink.setAttribute("data-id", user.id);
+    removeLink.setAttribute("data-id", file);
     removeLink.setAttribute("style", "cursor:pointer;padding:15px;");
     removeLink.append("Удалить");
     removeLink.addEventListener("click", e => {
 
         e.preventDefault();
-        DeleteUser(user.id);
+        DeleteFile(file);
     });
 
     linksTd.append(removeLink);
+
     tr.appendChild(linksTd);
 
     return tr;
@@ -151,17 +168,18 @@ document.getElementById("reset").click(function (e) {
 })
 
 // отправка формы
-document.forms["userForm"].addEventListener("submit", e => {
+document.forms["fileForm"].addEventListener("submit", e => {
     e.preventDefault();
-    const form = document.forms["userForm"];
-    const id = form.elements["id"].value;
+    const form = document.forms["fileForm"];
     const name = form.elements["name"].value;
-    const age = form.elements["age"].value;
-    if (id == 0)
-        CreateUser(name, age);
-    else
-        EditUser(id, name, age);
+    const format = form.elements["format"].value;
+    if ((format == '') || (format == 'folder')){
+        CreateFolder(name);
+    }
+    else{
+        CreateFile(name, format);
+    }
 });
 
-// загрузка пользователей
-GetUsers();
+// загрузка файлов
+GetFiles();
