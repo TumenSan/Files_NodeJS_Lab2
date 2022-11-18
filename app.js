@@ -1,12 +1,4 @@
-/*Задание 2 - написать на языке JS серверное (node.js) и клиентское веб приложение реализующее json API методы для доступа к файловой системе.
 
-Необходимо реализовать серверное node.js приложение, предоставляющее доступ к локальной файловой системе по протоколу Rest. Приложение по url / должно отдавать код клиентского js.
-Необходимо реализовать приложение - тонкий клиент (исполняемое в браузере) с использованием стандартного JS или любого популярного программного каркаса Vue.js, Angular, React и т.п..
-Требуется реализовать методы перечисления файлов и папок по передаваемому пути, удаленное скачивание файлов.
-
-По желанию список может быть расширен заливкой/удалением файлов, создание и удаление пустых папок и т.п. - оценивается дополнительно в 1 балл (максимум 6).
-
-Для успешной сдачи необходимо предоставить текстовое описание протокола. */
 const express = require("express");
 const fs = require("fs");
 const http = require('http');//
@@ -21,12 +13,6 @@ const filePath2 = "users.json";
 const filePath = "/FilesLab/";
 
 app.get("/api/file/create/:filename(*)", function(req, res){
-    /*
-    fs.open('testFile.txt', 'w', (err) => {
-        if(err) throw err;
-        console.log('File created');
-    });
-    */
     let filename = "FilesLab/" + req.params.filename;
     fs.writeFile(filename, "Текст", function(err){
         if (err) {
@@ -39,12 +25,6 @@ app.get("/api/file/create/:filename(*)", function(req, res){
     });
 });
 app.get("/api/folder/create/:filename(*)", function(req, res){
-    /*
-    fs.open('testFile.txt', 'w', (err) => {
-        if(err) throw err;
-        console.log('File created');
-    });
-    */
     let filename = "FilesLab/" + req.params.filename;
     fs.mkdir(filename, err => {
         if(err) throw err; // не удалось создать папку
@@ -79,26 +59,8 @@ app.get('/api/file/download/:file(*)', (req, res) => {
 
     console.log(fileLocation);
     res.download(fileLocation, file);
-    //return res.download(fileLocation, file);
-    
-    //res.download('./FilesLab', 'file123.txt');
-
-   /*
-    res.download('./FilesLab/Box.txt', function(err) {
-        if(err) {
-            console.log(err);
-        }
-    })   
-    */ 
 });
 app.get('/api/folder/count', (req, res) => {
-    /*
-    path1 = 'FilesLab/';
-    str = listObjects(path1);
-
-    console.log(str);
-    res.send(str);
-    */
     let filename = "FilesLab/";
     fs.readdir(filename, (err, files) => {
         if(err) throw err; // не прочитать содержимое папки

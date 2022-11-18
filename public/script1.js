@@ -25,30 +25,7 @@ async function CreateFolder(name) {
         console.log(files);
     }
 }
-/*
-// Получение всех файлов
-async function GetFiles() {
-    // отправляет запрос и получаем ответ
-    const response = await fetch("/api/folder/count", {
-        method: "GET",
-        headers: { "Accept": "application/json" }
-    });
-    // если запрос прошел нормально
-    if (response.ok === true) {
-        // получаем данные
-        const files = await response.json();
-        console.log(files);
-        //let rows = document.querySelector("tbody"); 
-        files.forEach(file => {
-            let liLast = document.createElement('li');
-            liLast.innerHTML = file;
-            ul1.append(liLast);
-            // добавляем полученные элементы в таблицу
-            //rows.append(row(files));
-        });
-    }
-}
-*/
+
 // Получение всех файлов
 async function GetFiles() {
     // отправляет запрос и получаем ответ
@@ -67,56 +44,7 @@ async function GetFiles() {
         });
     }
 }
-//Скачивание файлов
-async function DownloadFile(name) {
-    /*
-    const response = await fetch("/api/file/download/" + name, {
-        method: "GET"
-        //headers: { "Accept": "application/json" }
-    });
-    if (response.ok === true) {
-        const file = await response.blob;
-        console.log(file);
-    }
-    */
-   //let url = 'https://www.google-analytics.com/analytics.js';
-   //let fileName = 'gooleAnalytics.js';
-   /*
-   let url = '/api/file/download/';
-   let fileName = name;
-    fetch(url, { method: 'get', mode: 'no-cors', referrerPolicy: 'no-referrer' })
-    .then(res => res.blob())
-    .then(res => {
-      const aElement = document.createElement('a');
-      aElement.setAttribute('download', fileName);
-      const href = URL.createObjectURL(res);
-      aElement.href = href;
-      aElement.setAttribute('target', '_blank');
-      aElement.click();
-      URL.revokeObjectURL(href);
-    });
-    */
-   /*
-    const response = await fetch("/api/file/download/" + name, {
-        method: "GET"
-        //headers: { "Accept": "application/json" }
-    });
-    if (response.ok === true) {
-        const file = await response;
-        response => response.blob();
-        response => {
-            const aElement = document.createElement('a');
-            aElement.setAttribute('download', name);
-            const href = URL.createObjectURL(response);
-            aElement.href = href;
-            aElement.setAttribute('target', '_blank');
-            aElement.click();
-            URL.revokeObjectURL(href);
-          }
-        console.log(file);
-    }
-    */
-}
+
 //Удаление файла
 async function DeleteFile(name) {
     if (name.indexOf('.') == -1){
