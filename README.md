@@ -16,6 +16,26 @@
 
 ## Описание API
 
+### Загрузить файл  
+
+**URL** : `/api/file/*`
+
+**Method** : `POST`
+
+**Data constraints**
+
+```json
+{
+    "file": "file"
+}
+```
+
+#### Success Response: `Code: 200`
+
+Создается файл по пути *
+
+---
+
 ### Создать папку с именем
 
 **URL** : `/api/folder/create/:filename(*)`
