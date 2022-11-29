@@ -7,9 +7,43 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>
-    <h2>Список файлов</h2>
+    <h1>Работа с файлами и папками</h1>
+    <h6>при создании или удалении обновляйте страницу</h6>
+    <form
+        class="container mt-2 px-0"
+        id="uploadFileForm"
+        action="/api/file/FilesLab/"
+        method="POST"
+        enctype="multipart/form-data"
+    >
+        <fieldset class="input-group">
+            <input
+                class="form-control"
+                id="uploadedFile"
+                type="file"
+                name="uploadFile"
+                required
+            />
+            <button
+                class="btn btn-primary bg-black"
+                type="submit"
+                id="loadButton"
+            >
+                <span
+                    id="submit-spinner"
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                    hidden
+                ></span>
+                Загрузить
+            </button>
+        </fieldset>
+    </form>
     <form name="fileForm">
         <div class="form-group">
+            <br/>
+            <h3>Создайте пустые файлы и папки разных форматов:</h3>
             <label for="name">Название:</label>
             <input class="form-control" name="name" />
         </div>

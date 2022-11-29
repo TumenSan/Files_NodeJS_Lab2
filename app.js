@@ -3,6 +3,11 @@ const express = require("express");
 const fs = require("fs");
 const http = require('http');//
 const path = require('node:path');//
+const multer  = require("multer");//
+//const upload = multer({ dest: 'uploads/' });
+const storage = multer.memoryStorage();//
+const upload = multer({ storage: storage });//
+const bodyParser = require("body-parser");//
     
 const app = express();
 const jsonParser = express.json();
@@ -60,6 +65,21 @@ app.get('/api/file/download/:file(*)', (req, res) => {
     console.log(fileLocation);
     res.download(fileLocation, file);
 });
+
+app.post("/api/file/*", upload.single("uploadFile"), (req, res) => {
+    let filePath = path.join(__dirname, `${req.url.slice(10)}`);
+    const file = req.file;
+    fs.writeFile(
+        `${filePath}${file.originalname}`,
+        file.buffer,
+        function (err) {
+            if (err) return console.log(err);
+            console.log("file uploaded");
+        }
+    );
+    res.redirect(`/`);
+});
+
 app.get('/api/folder/count', (req, res) => {
     let filename = "FilesLab/";
     fs.readdir(filename, (err, files) => {
@@ -69,28 +89,6 @@ app.get('/api/folder/count', (req, res) => {
     });
 });
 
-function listObjects(path){
-    let string1 = '';
-    fs.readdir(path, (err, files) => {
-       if(err) throw err;
- 
-       for (let file of files){
-          fs.stat('file.txt', (errStat, status) => {
-             if(errStat) throw errStat;
- 
-             if(status.isDerictory()){
-                string1 = string1 + 'Папка: ' + file;
-                console.log('Папка: ' + file);
-                listObjects(path + '/' + file); // продолжаем рекурсию
-             }else{
-                string1 = string1 + 'Файл: ' + file;
-                console.log('Файл: ' + file);
-             }
-          });
-       }
-    });
-    return string1;
- }
    
 app.listen(3000, function(){
     console.log("Сервер ожидает подключения...");
